@@ -9,3 +9,5 @@ function User(name, age) {
 
 const Mike = new User("mike", 30)
 console.log(Mike);
+console.log(Mike.name);
+console.log(Mike.age);
