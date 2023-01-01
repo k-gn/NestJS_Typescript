@@ -50,7 +50,7 @@ export class AuthService {
       where: { username: username },
     });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await user.validatePassword(password))) {
       // generate user jwt
       const payload = { username };
       const accessToken = await this.jwtService.sign(payload);

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { User } from './entity/user.entity';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { User } from './entity/user.entity';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy], // Auth 모듈에서 사용하도록
+  exports: [JwtStrategy, PassportModule], // 다른 모듈에서 사용하도록
 })
 export class AuthModule {}
