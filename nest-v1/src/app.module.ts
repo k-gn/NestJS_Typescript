@@ -1,20 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsModule } from './boards/boards.module';
-import { Board } from './boards/entity/board.entity';
 import { AuthModule } from './auth/auth.module';
+import config = require('config');
+
+const dbConfig = config.get('db');
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'board-app',
+      type: dbConfig.type,
+      host: process.env.RDS_HOST || dbConfig.host,
+      port: process.env.RDS_PORT || dbConfig.port,
+      username: process.env.RDS_USERNAME || dbConfig.username,
+      password: process.env.RDS_PASSWORD || dbConfig.password,
+      database: process.env.RDS_DATABASE || dbConfig.database,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: dbConfig.synchronize,
     }),
     BoardsModule,
     AuthModule,
